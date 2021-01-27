@@ -24,6 +24,10 @@
 #ifndef GUI_FONTS_H
 #define GUI_FONTS_H
 
+#define GUI_FONT_SIZE_DEF 12
+#define GUI_FONT_SIZE_MIN 10
+#define GUI_FONT_SIZE_MAX 18
+
 class	GUI_GraphState;
 enum {
 

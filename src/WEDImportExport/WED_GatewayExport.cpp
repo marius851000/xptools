@@ -767,7 +767,7 @@ void WED_GatewayExportDialog::TimerFired()
 					stringstream ss;
 					ss << "The selected X-Plane Folder contains an unreleased X-plane version " << ver << "\n";
 					ss << "This can cause validation to miss deprecated or unavailable items.\n \n";
-					ss << "All submissions are re-validated with the last officially released X-Plane version.";
+					ss << "Submissions are re-validated with the last officially released X-Plane version.";
 					this->AddLabel(ss.str().c_str());
 				}
 			}

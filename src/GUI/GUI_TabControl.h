@@ -50,6 +50,7 @@ public:
 	virtual	void		SetValue(float inValue);
 
 			int			GetNaturalHeight(void);
+			int			GetScaledTabPadding(void);
 private:
 
 		vector<string>		mItems;

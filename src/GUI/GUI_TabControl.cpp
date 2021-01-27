@@ -53,9 +53,14 @@ void		GUI_TabControl::SetTextColor(float color[4])
 	mTextColor[3] = color[3];
 }
 
+int		GUI_TabControl::GetScaledTabPadding(void)
+{
+	return  GUI_GetFontSize(font_UI_Basic)/2;
+}
+
 int		GUI_TabControl::GetNaturalHeight(void)
 {
-	return 2 * GUI_GetLineHeight(font_UI_Basic) + 2 * TAB_PADDING;
+	return 2 * GUI_GetLineHeight(font_UI_Basic) + 2 * GetScaledTabPadding();
 }
 
 void		GUI_TabControl::SetDescriptor(const string& inDesc)
@@ -84,10 +89,10 @@ void		GUI_TabControl::SetDescriptor(const string& inDesc)
 		{
 			int w1 = GUI_MeasureRange(font_UI_Basic, mItems[n].c_str(), mItems[n].c_str() + pos);
 			int w2 = GUI_MeasureRange(font_UI_Basic, mItems[n].c_str() + pos + 1,&* mItems[n].end() );
-			mWidths[n] = max(w1, w2)  + TAB_PADDING * 2;
+			mWidths[n] = max(w1, w2) + GetScaledTabPadding() * 2;
 		}
 		else
-			mWidths[n] = GUI_MeasureRange(font_UI_Basic, &*mItems[n].begin(), &*mItems[n].end()) + TAB_PADDING * 2;
+			mWidths[n] = GUI_MeasureRange(font_UI_Basic, &*mItems[n].begin(), &*mItems[n].end()) + GetScaledTabPadding() * 2;
 	}
 
 	SetMax(mItems.size());
@@ -126,7 +131,7 @@ void		GUI_TabControl::Draw(GUI_GraphState * state)
 	{
 //		GUI_FontDraw(state, font_UI_Basic, (n == mTrackBtn && mHilite) ? ch : c, (bounds[0] + TAB_PADDING), bounds[1] + TAB_BASELINE, mItems[n].c_str());
 
-		float x = bounds[0] + TAB_PADDING;
+		float x = bounds[0] + GetScaledTabPadding();
 		float h = GUI_GetLineHeight(font_UI_Basic);
 		float y = (bounds[1] + bounds[3]) * 0.5 - h * 0.4;
 		

@@ -46,10 +46,11 @@
 
 static const int * calc_form_bounds(int b[4], int w, int h)
 {
+	int sz = GUI_GetFontSize(font_UI_Basic);
 	b[0] = 0;
 	b[1] = 0;
-	b[2] = w;
-	b[3] = h;
+	b[2] = (w-20)/GUI_FONT_SIZE_DEF * sz +20; //FIXME:mroe: for the width it is only a rough expectation of the scaling needed
+	b[3] = (h-20)/GUI_FONT_SIZE_DEF * sz +20; // the #20 comes from the fixed margins
 	return b;
 }
 
@@ -204,10 +205,14 @@ void		GUI_FormWindow::AddLabel(const string&			msg)
 
 		int wbounds[4];
 		this->GUI_Pane::GetBounds(wbounds);
+
+		int font_sz = GUI_GetFontSize(font_UI_Basic);
+		int cell_h = font_sz + font_sz/2;
+		if( cell_h / 2 != 0 ) ++cell_h ;
+
+		label->SetBounds(wbounds[0] + 10, mInsertY - cell_h, wbounds[2] - 10, mInsertY);
 		
-		label->SetBounds(wbounds[0] + 10, mInsertY - 20, wbounds[2] - 10, mInsertY);
-		
-		mInsertY -= 30;
+		mInsertY -= cell_h ;
 		
 		label->SetColors(WED_Color_RGBA(wed_Table_Text));
 		
@@ -236,16 +241,20 @@ void		GUI_FormWindow::AddField(
 	text->SetID(id);
 	label->SetDescriptor(label_text);
 	text->SetDescriptor(default_text);
-	text->SetMargins(3,0,3,1);
+	text->SetMargins(3,2,3,2);
 
 	int wbounds[4];
 	this->GUI_Pane::GetBounds(wbounds);
+	int split = (wbounds[2] - wbounds[0]) / 5;
 	
-	int split = (wbounds[0] + wbounds[2]) / 4;
+	int font_sz = GUI_GetFontSize(font_UI_Basic);
+	int line_h = GUI_GetLineHeight(font_UI_Basic);
+	int cell_h = font_sz + font_sz/2;
+	if( cell_h / 2 != 0 ) ++cell_h ;
+
+	int fh = (ft == ft_multi_line || ft == ft_big) ? 7 * line_h + 4  : cell_h ;
 	
-	int fh = (ft == ft_multi_line || ft == ft_big) ? 100 : 20;
-	
-	label->SetBounds(wbounds[0] + 10, mInsertY - 20, split - 5, mInsertY);
+	label->SetBounds(wbounds[0] + 10, mInsertY - cell_h, split - 5, mInsertY);
 	text->SetBounds(split + 5, mInsertY - fh, wbounds[2] - 10, mInsertY);
 	
 	for(int i = 0; i <256;++i)
@@ -263,12 +272,12 @@ void		GUI_FormWindow::AddField(
 	text->SetVKAllowed(GUI_VK_ESCAPE, false);
 	text->SetVKAllowed(GUI_VK_ENTER, false);
 	
-	float	line_h = GUI_GetLineHeight(font_UI_Basic);
-	float	cell_h = line_h + 4.0f;
-	float descent = GUI_GetLineDescent(font_UI_Basic);
-	float	cell2line = (cell_h - line_h ) * 0.5f + descent;
+	//float	line_h = GUI_GetLineHeight(font_UI_Basic);
+	//float	cell_h = line_h + 4.0f;
+	//float descent = GUI_GetLineDescent(font_UI_Basic);
+	//float	cell2line = (cell_h - line_h ) * 0.5f + descent;
 
-	mInsertY -= (10+fh);
+	mInsertY -= (fh + cell_h/2);
 	
 	label->SetColors(WED_Color_RGBA(wed_Table_Text));
 	text->SetColors(
@@ -303,13 +312,16 @@ void		GUI_FormWindow::AddFieldNoEdit(
 
 	int wbounds[4];
 	this->GUI_Pane::GetBounds(wbounds);
-	
 	int split = (wbounds[0] + wbounds[2]) / 5;
+
+	int font_sz = GUI_GetFontSize(font_UI_Basic);
+	int cell_h = font_sz + font_sz/2;
+	if( cell_h / 2 != 0 ) ++cell_h ;
+
+	label->SetBounds(wbounds[0] + 10, mInsertY - cell_h, split - 5, mInsertY);
+	text->SetBounds(split + 5, mInsertY - cell_h, wbounds[2] - 10, mInsertY);
 	
-	label->SetBounds(wbounds[0] + 10, mInsertY - 20, split - 5, mInsertY);
-	text->SetBounds(split + 5, mInsertY - 20, wbounds[2] - 10, mInsertY);
-	
-	mInsertY -= 30;
+	mInsertY -= (cell_h + cell_h/2);
 	
 	label->SetColors(WED_Color_RGBA(wed_Table_Text));
 	text->SetColors(WED_Color_RGBA(wed_Table_Text));

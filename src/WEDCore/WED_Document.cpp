@@ -575,7 +575,7 @@ void	WED_Document::ReadGlobalPrefs(void)
 	gInfoDMS = atoi(GUI_GetPrefString("preferences","InfoDMS","0"));
 	gCustomSlippyMap = GUI_GetPrefString("preferences","CustomSlippyMap","");
 	int FontSize = atoi(GUI_GetPrefString("preferences","FontSize","12"));
-	gFontSize = intlim(FontSize, 10, 18);
+	gFontSize = intlim(FontSize, GUI_FONT_SIZE_MIN, GUI_FONT_SIZE_MAX);
 	GUI_SetFontSizes(gFontSize);
 	gOrthoExport = atoi(GUI_GetPrefString("preferences","OrthoExport","1"));
 }

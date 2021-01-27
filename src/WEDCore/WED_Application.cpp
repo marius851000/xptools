@@ -136,22 +136,23 @@ void WED_Settings::ReceiveMessage(
 	{
 			string new_val;
 			((GUI_TextField *) inParam)->GetDescriptor(new_val);
-			gFontSize = max(10,min(18,atoi(new_val.c_str())));
+			gFontSize = max(GUI_FONT_SIZE_MIN,min(GUI_FONT_SIZE_MAX,atoi(new_val.c_str())));
 			GUI_SetFontSizes(gFontSize);
 			#if LIN
 			Fl_Tooltip::size((int)GUI_GetFontSize(font_UI_Small));
 			#endif
-			int field_height = gFontSize+gFontSize/2;
+			int cell_h = gFontSize+gFontSize/2;
+			if( cell_h / 2 != 0 ) ++cell_h ;
 			int b[4];
 			if(mCustom_box)
 			{
 				mCustom_box->GetBounds(b);
-				mCustom_box->SetBounds(b[0],b[3]-field_height,b[2],b[3]);
+				mCustom_box->SetBounds(b[0],b[3]-cell_h,b[2],b[3]);
 			}
 			if(mFont_box)
 			{
 				mFont_box->GetBounds(b);
-				mFont_box->SetBounds(b[0],b[1],b[2],b[1]+field_height);
+				mFont_box->SetBounds(b[0],b[1],b[2],b[1]+cell_h);
 			}
 
 	}
@@ -202,12 +203,13 @@ WED_Settings::WED_Settings(GUI_Commander * cmdr) : GUI_Window("WED Preferences",
 	png_btn->SetValue(gOrthoExport);
 	png_btn->SetMsg((intptr_t) &gOrthoExport, (intptr_t) png_btn);
 
-	int field_height = gFontSize+gFontSize/2;
+	int cell_h = gFontSize+gFontSize/2;
+	if( cell_h / 2 != 0) ++cell_h ;
 
 	mCustom_box = new GUI_TextField(true, this);
 	GUI_Label * label = new GUI_Label();
 	mCustom_box->SetMargins(3,2,3,2);
-	mCustom_box->SetBounds(20,140-field_height,490,140);
+	mCustom_box->SetBounds(20,140-cell_h,490,140);
 	label->SetBounds(20,142,300,162);
 	mCustom_box->SetWidth(1000);
 	mCustom_box->SetParent(this);
@@ -226,7 +228,7 @@ WED_Settings::WED_Settings(GUI_Commander * cmdr) : GUI_Window("WED Preferences",
 	mFont_box = new GUI_TextField(false, this);
 	GUI_Label * label2 = new GUI_Label();
 	mFont_box->SetMargins(3,2,3,2);
-	mFont_box->SetBounds(340,190,400,190+field_height);
+	mFont_box->SetBounds(340,190,400,190+cell_h);
 	label2->SetBounds  (220,190,350,210);
 	mFont_box->SetParent(this);
 	mFont_box->AddListener(this);
