@@ -36,6 +36,7 @@
 #include "WED_Document.h"
 #include "WED_MapPane.h"
 #include "WED_Airport.h"
+#include "WED_Menus.h"
 
 static int import_bounds_default[4] = { 0, 0, 500, 500 };
 
@@ -221,6 +222,7 @@ void WED_AptImportDialog::DoIt(void)
 
 		wrl->CommitOperation();
 		mMapPane->ZoomShowSel();
+		DispatchHandleCommand(wed_ShowMapAreaInPreviewWindow);
 	}
 }
 

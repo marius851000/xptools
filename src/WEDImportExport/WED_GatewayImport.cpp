@@ -55,6 +55,7 @@
 #include "GUI_Button.h"
 
 #include "WED_Messages.h"
+#include "WED_Menus.h"
 //--DSF/AptImport
 #include "WED_AptIE.h"
 #include "WED_ToolUtils.h"
@@ -627,6 +628,7 @@ void WED_GatewayImportDialog::TimerFired()
 
 						//Zoom to the airport
 						mMapPane->ZoomShowSel();
+						DispatchHandleCommand(wed_ShowMapAreaInPreviewWindow);
 
 						wrl->CommitOperation();
 						this->AsyncDestroy();//All done!
@@ -1387,7 +1389,7 @@ int	WED_CanImportFromGateway(IResolver * resolver)
 
 void WED_DoImportFromGateway(WED_Document * resolver, WED_MapPane * pane)
 {
-	new WED_GatewayImportDialog(resolver, pane,gApplication);
+	new WED_GatewayImportDialog(resolver, pane, pane);
 	return;
 }
 

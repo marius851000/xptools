@@ -52,6 +52,7 @@
 #include "WED_Validate.h"
 #include "WED_TruckParkingLocation.h"
 #include "WED_TruckDestination.h"
+#include "WED_MapPane.h"
 
 #include "AptIO.h"
 
@@ -1135,7 +1136,7 @@ void	WED_DoImportApt(WED_Document * resolver, WED_Archive * archive, WED_MapPane
 		apts.insert(apts.end(),one_apt.begin(),one_apt.end());
 	}
 	
-	WED_AptImportDialog * importer = new WED_AptImportDialog(gApplication, apts, fnames[0], resolver, archive, pane);
+	WED_AptImportDialog * importer = new WED_AptImportDialog(pane, apts, fnames[0], resolver, archive, pane);
 }
 
 void	WED_ImportOneAptFile(
